@@ -14,4 +14,6 @@ public class University {
     @JoinColumn(nullable = false)
     @OneToOne
     Foyer foyer;
+    @Column(nullable = false)
+    String address;
 }

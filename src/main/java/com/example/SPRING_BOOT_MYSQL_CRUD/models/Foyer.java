@@ -9,13 +9,17 @@ import java.util.List;
 @Entity
 public class Foyer {
     @Id
+    @Column(unique = true, nullable = false)
     Long id;
+    @Column
     String name;
+    @Column
     Long capacity;
     @JoinColumn
     @OneToOne
     University university;
     @OneToMany
+    @Column
     @JoinColumn
     List<Block> blocks;
 }

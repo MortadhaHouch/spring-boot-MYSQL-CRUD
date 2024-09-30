@@ -15,7 +15,7 @@ public class Block {
     String name;
     @Column(nullable = false)
     Long capacity;
-    @OneToOne
+    @ManyToOne
     Foyer foyer;
     @OneToMany
     @JoinColumn(nullable = false)
