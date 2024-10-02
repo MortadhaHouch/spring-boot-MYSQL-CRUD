@@ -1,5 +1,6 @@
 package com.example.SPRING_BOOT_MYSQL_CRUD.repositories;
 import com.example.SPRING_BOOT_MYSQL_CRUD.models.Reservation;
+import com.example.SPRING_BOOT_MYSQL_CRUD.models.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;
@@ -9,5 +10,4 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
     Optional<Reservation> findReservationById(Long reservationId);
     Optional<Reservation> findReservationByYear(Date year);
     Optional<Reservation> findReservationByIsValid(Boolean valid);
-    Optional<Reservation> findReservationByStudents(Long studentId);
 }
