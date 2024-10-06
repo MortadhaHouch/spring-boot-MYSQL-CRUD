@@ -25,11 +25,11 @@ public class UserController {
         return map;
     }
     @GetMapping("/get/{id}")
-    public Optional<Student> getUserById(@PathVariable Long id) {
+    public Optional<Student> getUserById(@PathVariable UUID id) {
         return userService.getUserById(id);
     }
     @GetMapping("/get/{id}/reservations")
-    public Map<Integer,List<Reservation>> getStudentReservations(@PathVariable Long id,@RequestParam(required = false) Optional<Integer> p) {
+    public Map<Integer,List<Reservation>> getStudentReservations(@PathVariable UUID id,@RequestParam(required = false) Optional<Integer> p) {
         Optional<Student> foundStudent = userService.getUserById(id);
         HashMap<Integer,List<Reservation>> map = new HashMap<>();
         if(foundStudent.isPresent()){
@@ -44,7 +44,7 @@ public class UserController {
         }
     }
     @GetMapping("/get/{id}/reservations/{reservationId}")
-    public Optional<Reservation> getStudentReservation(@PathVariable Long id, @PathVariable Long reservationId) {
+    public Optional<Reservation> getStudentReservation(@PathVariable UUID id, @PathVariable Long reservationId) {
         Optional<Student> foundStudent = userService.getUserById(id);
         return foundStudent.map(student -> Optional.of((Reservation) student.getReservations().stream().filter(reservation -> {
             return reservation.getId().equals(reservationId);
@@ -59,7 +59,7 @@ public class UserController {
         return userService.updateStudent(student);
     }
     @DeleteMapping("/delete/{id}")
-    public String deleteStudent(@RequestBody Long studentId) {
+    public String deleteStudent(@RequestBody UUID studentId) {
         return userService.deleteStudent(studentId);
     }
 }

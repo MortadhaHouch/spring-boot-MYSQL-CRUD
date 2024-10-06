@@ -3,23 +3,26 @@ package com.example.SPRING_BOOT_MYSQL_CRUD.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
 public class Foyer {
     @Id
     @Column(unique = true, nullable = false)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    UUID id;
     @Column
     String name;
     @Column
     Long capacity;
     @JoinColumn
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     University university;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @Column
     @JoinColumn
-    List<Block> blocks;
+    List<Block> blocks = new ArrayList<>();
 }

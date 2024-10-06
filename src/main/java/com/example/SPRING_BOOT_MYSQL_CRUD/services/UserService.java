@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class UserService {
     @Autowired
@@ -33,24 +35,18 @@ public class UserService {
     public List<Student> getUsers() {
         return userRepo.findAll();
     }
-    public Optional<Student> getUserById(Long id) {
+    public Optional<Student> getUserById(UUID id) {
         return userRepo.findById(id);
     }
-    public Optional<Student> findUserByReservationId(Long reservationId) {
+    public Optional<List<Student>> findUsersByReservationId(UUID reservationId) {
         Optional<Reservation> foundReservation = reservationRepo.findById(reservationId);
-        return foundReservation.map(reservation -> reservation.getStudents().stream().filter(user -> {
-            return user.getId().equals(reservation.getId());
-        }).findFirst().get());
+        return Optional.ofNullable(foundReservation.get().getStudents());
     }
-    public List<Reservation> findReservationsByStudentId(Long studentId) {
+    public Optional<List<Reservation>> findReservationsByStudentId(UUID studentId) {
         Optional<Student> foundStudent = userRepo.findById(studentId);
-        if(foundStudent.isPresent()){
-            return foundStudent.get().getReservations();
-        }else{
-            return List.of();
-        }
+        return Optional.ofNullable(foundStudent.get().getReservations());
     }
-    public String deleteStudent(Long studentId) {
+    public String deleteStudent(UUID studentId) {
         Optional<Student> foundStudent = userRepo.findById(studentId);
         if(foundStudent.isPresent()){
             userRepo.delete(foundStudent.get());

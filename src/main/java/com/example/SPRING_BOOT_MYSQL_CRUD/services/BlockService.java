@@ -9,22 +9,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class BlockService {
     @Autowired
     BlockRepo blockRepo;
-
-    Optional<Foyer> findFoyerByBlockId(Long blockId) {
+    public Optional<Foyer> findFoyerByBlockId(UUID blockId) {
         Optional<Block> foundBlock = blockRepo.findBlockById(blockId);
         return foundBlock.map(Block::getFoyer);
     };
-    List<Room> findRoomsByBlockId(Long blockId) {
+    public Optional<List<Room>> findRoomsByBlockId(UUID blockId) {
         Optional<Block> foundBlock = blockRepo.findBlockById(blockId);
-        if(foundBlock.isPresent()){
-            return foundBlock.get().getRooms();
-        }else{
-            return List.of();
-        }
+        return Optional.ofNullable(foundBlock.get().getRooms());
+    }
+    public Optional<Block> findById(UUID id){
+        return blockRepo.findById(id);
     }
 }

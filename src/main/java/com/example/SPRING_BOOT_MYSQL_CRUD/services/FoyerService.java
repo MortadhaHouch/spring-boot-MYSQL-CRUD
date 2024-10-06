@@ -9,21 +9,36 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class FoyerService {
     @Autowired
     FoyerRepo foyerRepo;
-    List<Block> findBlocksByFoyerId(int id) {
-        Optional<Foyer> foundFoyer = foyerRepo.findById(id);
-        if(foundFoyer.isPresent()){
-            return foundFoyer.get().getBlocks();
-        }else{
-            return List.of();
-        }
+    public List<Foyer> findAll(){
+        return foyerRepo.findAll();
     }
-    Optional<University> findUniversityByFoyerId(int id) {
+    public Optional<Foyer> findById(UUID id){
+        return foyerRepo.findById(id);
+    }
+    public Foyer saveFoyer(Foyer foyer) {
+        return foyerRepo.save(foyer);
+    }
+    public Optional<List<Block>> findBlocksByFoyerId(UUID id) {
+        Optional<Foyer> foundFoyer = foyerRepo.findById(id);
+        return Optional.ofNullable(foundFoyer.get().getBlocks());
+    }
+    public Optional<University> findUniversityByFoyerId(UUID id) {
         Optional<Foyer> foundFoyer = foyerRepo.findById(id);
         return foundFoyer.map(Foyer::getUniversity);
+    }
+    public String deleteFoyer(UUID id) {
+        Optional<Foyer> foundFoyer = foyerRepo.findById(id);
+        if (foundFoyer.isPresent()) {
+            foyerRepo.deleteById(id);
+            return "Foyer deleted";
+        }else{
+            return "Foyer not found";
+        }
     }
 }

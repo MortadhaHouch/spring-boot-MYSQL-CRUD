@@ -1,5 +1,6 @@
 package com.example.SPRING_BOOT_MYSQL_CRUD.services;
 
+import com.example.SPRING_BOOT_MYSQL_CRUD.models.Foyer;
 import com.example.SPRING_BOOT_MYSQL_CRUD.models.Reservation;
 import com.example.SPRING_BOOT_MYSQL_CRUD.models.Student;
 import com.example.SPRING_BOOT_MYSQL_CRUD.repositories.ReservationRepo;
@@ -8,16 +9,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ReservationService {
     @Autowired
     ReservationRepo reservationRepo;
-    public Optional<Reservation> findById(Long id) {
+    public Optional<Reservation> findReservationById(UUID id) {
         return reservationRepo.findById(id);
     };
     public List<Reservation> findAll() {
         return reservationRepo.findAll();
+    }
+    public String addReservation(Reservation reservation) {
+        reservationRepo.save(reservation);
+        return "Reservation added";
     }
     public Reservation save(Reservation reservation) {
         Optional<Reservation> foundReservation = reservationRepo.findById(reservation.getId());
@@ -31,12 +37,8 @@ public class ReservationService {
             return null;
         }
     };
-    public List<Student> findStudentsByReservationId(Long id) {
+    public Optional<List<Student>> findStudentsByReservationId(UUID id) {
         Optional<Reservation> foundReservation = reservationRepo.findById(id);
-        if(foundReservation.isPresent()){
-            return foundReservation.get().getStudents();
-        }else{
-            return List.of();
-        }
+        return Optional.ofNullable(foundReservation.get().getStudents());
     }
 }

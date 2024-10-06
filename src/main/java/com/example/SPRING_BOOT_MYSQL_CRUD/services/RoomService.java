@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class RoomService {
     RoomRepo roomRepo;
-    public List<Reservation> findReservationsByRoomId(Long roomId) {
+    public List<Reservation> findReservationsByRoomId(UUID roomId) {
         Optional<Room> optionalRoom = roomRepo.findById(roomId);
         if(optionalRoom.isPresent()){
             return optionalRoom.get().getReservations();

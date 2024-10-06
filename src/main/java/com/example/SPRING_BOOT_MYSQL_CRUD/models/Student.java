@@ -5,28 +5,30 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
 public class Student {
     @Id
-    @Column(nullable = false,unique = true)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(nullable = false, unique = true)
+    private UUID id;
     @Column(nullable = false)
-    String firstName;
+    private String firstName;
     @Column(nullable = false)
-    String lastName;
+    private String lastName;
     @Column(nullable = false)
-    String school;
+    private String school;
     @Column(nullable = false)
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy")
-    Date dob;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private Date dob;
     @Column(nullable = false)
-    Long CIN;
-    @ManyToMany
-    @Column(nullable = false)
-    List<Reservation> reservations;
+    private long CIN;
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<Reservation> reservations = new ArrayList<>();
 }

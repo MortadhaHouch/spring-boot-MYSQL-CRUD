@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface UniversityRepo extends JpaRepository<University, Integer> {
+public interface UniversityRepo extends JpaRepository<University, UUID> {
     Optional<University> findUniversityByFoyer(Foyer foyer);
     Optional<University> findUniversityByName(String universityName);
-    Optional<University> findUniversityById(Long id);
+    Optional<University> findUniversityById(UUID id);
     Optional<University> findUniversityByAddress(String address);
     List<University> findUniversitiesByAddress(String address);
 }

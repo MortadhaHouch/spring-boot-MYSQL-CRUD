@@ -6,8 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-public interface ReservationRepo extends JpaRepository<Reservation, Long> {
-    Optional<Reservation> findReservationById(Long reservationId);
+import java.util.UUID;
+
+public interface ReservationRepo extends JpaRepository<Reservation, UUID> {
+    Optional<Reservation> findReservationById(UUID reservationId);
     Optional<Reservation> findReservationByYear(Date year);
     Optional<Reservation> findReservationByIsValid(Boolean valid);
+    Optional<Reservation> findById(UUID id);
 }
