@@ -1,5 +1,6 @@
 package com.example.SPRING_BOOT_MYSQL_CRUD.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,6 +21,7 @@ public class Room {
     RoomType typeR;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(nullable = false)
+    @JsonIgnore
     Block block;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "room")
     List<Reservation> reservations = new ArrayList<>();

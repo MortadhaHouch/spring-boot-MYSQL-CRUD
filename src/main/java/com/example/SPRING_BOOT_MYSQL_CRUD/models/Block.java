@@ -1,5 +1,6 @@
 package com.example.SPRING_BOOT_MYSQL_CRUD.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,5 +24,6 @@ public class Block {
     @OneToMany
     @JoinColumn(nullable = false)
     @Column(nullable = false)
+    @JsonIgnore
     List<Room> rooms = new ArrayList<>();
 }

@@ -15,6 +15,9 @@ import java.util.UUID;
 public class BlockService {
     @Autowired
     BlockRepo blockRepo;
+    public List<Block> getAllBlocks() {
+        return blockRepo.findAll();
+    }
     public Optional<Foyer> findFoyerByBlockId(UUID blockId) {
         Optional<Block> foundBlock = blockRepo.findBlockById(blockId);
         return foundBlock.map(Block::getFoyer);
@@ -25,5 +28,8 @@ public class BlockService {
     }
     public Optional<Block> findById(UUID id){
         return blockRepo.findById(id);
+    }
+    public Block save(Block block) {
+        return blockRepo.save(block);
     }
 }

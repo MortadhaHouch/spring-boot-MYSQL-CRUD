@@ -67,30 +67,12 @@ public class ReservationController {
             return "Reservation Not Found";
         }
     }
-    @PutMapping("/edit/{studentId}/{reservationId}")
+    @PutMapping("/edit/{reservationId}/{studentId}")
     public String editUserReservationState(@PathVariable UUID studentId, @PathVariable UUID reservationId) {
-        Optional<Reservation> foundReservation = reservationService.findReservationById(reservationId);
-        if(foundReservation.isPresent()) {
-            Optional<Student> foundStudent = userService.getUserById(studentId);
-            if(foundStudent.isPresent()) {
-                if(foundReservation.get().getStudents().contains(foundStudent.get())) {
-                    foundReservation.get().getStudents().remove(foundStudent.get());
-                    foundStudent.get().getReservations().add(foundReservation.get());
-                    reservationService.save(foundReservation.get());
-                    userService.updateStudent(foundStudent.get());
-                    return "user removed from reservation list";
-                }else{
-                    foundReservation.get().getStudents().add(foundStudent.get());
-                    foundStudent.get().getReservations().add(foundReservation.get());
-                    reservationService.save(foundReservation.get());
-                    userService.updateStudent(foundStudent.get());
-                    return "user added to reservation list";
-                }
-            }else{
-                return "User Not Found";
-            }
-        }else{
-            return "reservation Not Found";
-        }
+        return reservationService.toggleAddReservationStudent(reservationId, studentId);
+    }
+    @DeleteMapping("/delete/{id}")
+    public String deleteReservationById(@PathVariable UUID id) {
+        return reservationService.deleteReservation(id);
     }
 }

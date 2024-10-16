@@ -1,6 +1,7 @@
 package com.example.SPRING_BOOT_MYSQL_CRUD.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,5 +31,6 @@ public class Student {
     @Column(nullable = false)
     private long CIN;
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JsonIgnore
     private List<Reservation> reservations = new ArrayList<>();
 }

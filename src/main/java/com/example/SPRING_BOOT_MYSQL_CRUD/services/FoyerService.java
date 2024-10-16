@@ -2,8 +2,12 @@ package com.example.SPRING_BOOT_MYSQL_CRUD.services;
 
 import com.example.SPRING_BOOT_MYSQL_CRUD.models.Block;
 import com.example.SPRING_BOOT_MYSQL_CRUD.models.Foyer;
+import com.example.SPRING_BOOT_MYSQL_CRUD.models.Student;
 import com.example.SPRING_BOOT_MYSQL_CRUD.models.University;
+import com.example.SPRING_BOOT_MYSQL_CRUD.repositories.BlockRepo;
 import com.example.SPRING_BOOT_MYSQL_CRUD.repositories.FoyerRepo;
+import com.example.SPRING_BOOT_MYSQL_CRUD.repositories.UserRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,8 @@ import java.util.UUID;
 public class FoyerService {
     @Autowired
     FoyerRepo foyerRepo;
+    @Autowired
+    UserRepo userRepo;
     public List<Foyer> findAll(){
         return foyerRepo.findAll();
     }
