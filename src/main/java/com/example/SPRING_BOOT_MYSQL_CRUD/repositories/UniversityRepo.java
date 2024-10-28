@@ -12,6 +12,5 @@ public interface UniversityRepo extends JpaRepository<University, UUID> {
     Optional<University> findUniversityByFoyer(Foyer foyer);
     Optional<University> findUniversityByName(String universityName);
     Optional<University> findUniversityById(UUID id);
-    Optional<University> findUniversityByAddress(String address);
     List<University> findUniversitiesByAddress(String address);
 }

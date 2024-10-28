@@ -20,7 +20,7 @@ public class Room {
     @Column(nullable = false)
     RoomType typeR;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "block_id")
     @JsonIgnore
     Block block;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "room")

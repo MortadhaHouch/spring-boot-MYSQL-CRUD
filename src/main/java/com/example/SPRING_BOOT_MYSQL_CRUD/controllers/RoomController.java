@@ -17,7 +17,7 @@ public class RoomController {
     @Autowired
     private RoomService roomService = new RoomService();
     @Autowired
-    private ReservationService reservationService;
+    private ReservationService reservationService = new ReservationService();
 
     @GetMapping("/get")
     List<Room> getAllRooms() {

@@ -19,7 +19,7 @@ public class Foyer {
     @Column
     Long capacity;
     @JoinColumn
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     University university;
     @OneToMany(cascade = CascadeType.ALL)
     @Column

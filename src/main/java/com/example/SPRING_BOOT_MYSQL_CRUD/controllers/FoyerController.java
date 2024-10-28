@@ -49,7 +49,6 @@ public class FoyerController {
             Optional<University> foundUniversity = universityService.findUniversityById(universityId);
             if(foundUniversity.isPresent() && foundFoyer.get().getUniversity().equals(foundUniversity.get())) {
                 foundFoyer.get().setUniversity(foundUniversity.get());
-                foundUniversity.get().setFoyer(foundFoyer.get());
                 return "successfully add university to foyer";
             }else{
                 foundFoyer.get().setUniversity(null);

@@ -15,15 +15,18 @@ public class Block {
     @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
+
     @Column(nullable = false)
     String name;
+
     @Column(nullable = false)
     Long capacity;
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne(cascade = CascadeType.MERGE) // Adjust cascade to avoid unnecessary insertions
     Foyer foyer;
-    @OneToMany
-    @JoinColumn(nullable = false)
-    @Column(nullable = false)
+
+    @OneToMany(mappedBy = "block", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     List<Room> rooms = new ArrayList<>();
 }
+
