@@ -69,7 +69,11 @@ public class BlockController {
     Map<Foyer,Block> getFoyersByBlockId(){
         Map<Foyer,Block> foyerMap = new HashMap<>();
         List<Block> blocks = blockService.getAllBlocks();
-        blocks.forEach(block -> foyerMap.put(block.getFoyer(), block));
+        blocks.forEach(block -> {
+            if(block.getFoyer()!=null){
+                foyerMap.put(block.getFoyer(), block);
+            };
+        });
         return foyerMap;
     }
     @Transactional

@@ -60,10 +60,10 @@ public class FoyerController {
         }
     }
     @PutMapping("/edit/foyer/{foyerId}/block/{blockId}")
-    String toggleAddBlockToFoyer(@PathVariable UUID foyerId,@PathVariable UUID universityId) {
+    String toggleAddBlockToFoyer(@PathVariable UUID foyerId,@PathVariable UUID blockId) {
         Optional<Foyer> foundFoyer = foyerService.findById(foyerId);
         if(foundFoyer.isPresent()) {
-            Optional<Block> foundBlock = blockService.findById(universityId);
+            Optional<Block> foundBlock = blockService.findById(blockId);
             if(foundBlock.isPresent() && foundFoyer.get().getUniversity().equals(foundBlock.get())) {
                 foundFoyer.get().getBlocks().add(foundBlock.get());
                 foundBlock.get().setFoyer(foundFoyer.get());
