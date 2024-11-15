@@ -14,7 +14,7 @@ import java.util.UUID;
 public class UniversityService {
     @Autowired
     UniversityRepo universityRepo;
-    Optional<List<Foyer>> findFoyerByUniversityId(UUID universityId) {
+    Optional<Foyer> findFoyerByUniversityId(UUID universityId) {
         Optional<University> foundUniversity = universityRepo.findById(universityId);
         return Optional.of(foundUniversity.get().getFoyer());
     }

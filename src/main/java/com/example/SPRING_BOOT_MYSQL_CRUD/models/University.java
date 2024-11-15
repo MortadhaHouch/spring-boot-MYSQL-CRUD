@@ -17,8 +17,8 @@ public class University {
     @Column(nullable = false,unique = true)
     String name;
     @JoinColumn
-    @OneToMany(cascade = CascadeType.ALL)
-    List<Foyer> foyer = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    Foyer foyer;
     @Column(nullable = false)
     String address;
 }

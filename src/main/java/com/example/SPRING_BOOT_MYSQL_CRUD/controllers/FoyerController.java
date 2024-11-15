@@ -26,7 +26,7 @@ public class FoyerController {
     List<Foyer> getFoyer() {
         return foyerService.findAll();
     }
-    @GetMapping("/add")
+    @PostMapping("/add")
     Foyer addFoyer(@RequestBody Foyer foyer) {
         return foyerService.saveFoyer(foyer);
     }
@@ -42,18 +42,27 @@ public class FoyerController {
             return "error updating foyer";
         }
     }
+    @GetMapping("/{foyerId}/get-blocks")
+    Optional<List<Block>> getBlocks(@PathVariable UUID foyerId) {
+        return Optional.of(foyerService.findById(foyerId).get().getBlocks());
+    }
     @PutMapping("/edit/foyer/{foyerId}/university/{universityId}")
     String toggleAddUniversityToFoyer(@PathVariable UUID foyerId,@PathVariable UUID universityId) {
         Optional<Foyer> foundFoyer = foyerService.findById(foyerId);
         if(foundFoyer.isPresent()) {
             Optional<University> foundUniversity = universityService.findUniversityById(universityId);
-            if(foundUniversity.isPresent() && foundFoyer.get().getUniversity().equals(foundUniversity.get())) {
-                foundFoyer.get().setUniversity(foundUniversity.get());
-                return "successfully add university to foyer";
+            if(foundUniversity.isPresent()) {
+                if(foundFoyer.get().getUniversity().equals(foundUniversity.get())){
+                    foundFoyer.get().setUniversity(null);
+                    foundUniversity.get().setFoyer(null);
+                    return "error removing university from foyer";
+                }else{
+                    foundFoyer.get().setUniversity(foundUniversity.get());
+                    foundUniversity.get().setFoyer(foundFoyer.get());
+                    return "successfully add university to foyer";
+                }
             }else{
-                foundFoyer.get().setUniversity(null);
-                foundUniversity.get().setFoyer(null);
-                return "error removing university from foyer";
+                return "university does not exist";
             }
         }else{
             return "foyer not found";
@@ -64,14 +73,22 @@ public class FoyerController {
         Optional<Foyer> foundFoyer = foyerService.findById(foyerId);
         if(foundFoyer.isPresent()) {
             Optional<Block> foundBlock = blockService.findById(blockId);
-            if(foundBlock.isPresent() && foundFoyer.get().getUniversity().equals(foundBlock.get())) {
-                foundFoyer.get().getBlocks().add(foundBlock.get());
-                foundBlock.get().setFoyer(foundFoyer.get());
-                return "successfully add university to foyer";
+            if(foundBlock.isPresent()) {
+                if(foundFoyer.get().getBlocks().contains(foundBlock.get())){
+                    foundFoyer.get().getBlocks().remove(foundBlock.get());
+                    foundBlock.get().setFoyer(null);
+                    foyerService.saveFoyer(foundFoyer.get());
+                    blockService.save(foundBlock.get());
+                    return "successfully removed block from foyer";
+                }else{
+                    foundFoyer.get().getBlocks().add(foundBlock.get());
+                    foundBlock.get().setFoyer(foundFoyer.get());
+                    foyerService.saveFoyer(foundFoyer.get());
+                    blockService.save(foundBlock.get());
+                    return "successfully added block to foyer";
+                }
             }else{
-                foundFoyer.get().getBlocks().remove(foundBlock.get());
-                foundBlock.get().setFoyer(null);
-                return "error removing university from foyer";
+                return "block not found";
             }
         }else{
             return "foyer not found";

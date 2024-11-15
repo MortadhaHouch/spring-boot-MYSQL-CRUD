@@ -27,7 +27,7 @@ public class UniversityController {
         return universityService.findByAddress(address);
     }
     @GetMapping("/get/{id}/foyer")
-    public Optional<List<Foyer>> findFoyersByUniversityId(@PathVariable UUID id){
+    public Optional<Foyer> findFoyersByUniversityId(@PathVariable UUID id){
         Optional<University> foundUniversity = universityService.findUniversityById(id);
         return Optional.ofNullable(foundUniversity.get().getFoyer());
     }
